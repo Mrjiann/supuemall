@@ -9,22 +9,94 @@
      <!--:banners = "banners"父传子，传数据-->
     <HomeSwiper :banners = "banners"></HomeSwiper>
     
+    <!-- 四项小组件 -->
+    <RecommendView :recommends = "recommends"></RecommendView>
+
+    <!-- 推荐更多 -->
+    <feature-view></feature-view>
+
+    <!-- 选项卡 -->
+    <tab-control :titles="['流行', '新款', '精选']" class="tab-control"></tab-control>
+
+    <ui>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+      <li>11X</li>
+    </ui>
+
   </div>
 </template>
 
 
 <script>
-import NavBar from "components/common/navbar/NavBar";
+import RecommendView from "./childComps/RecommendView";
+import FeatureView from './childComps/FeatureView';
 import HomeSwiper from "./childComps/HomeSwiper";
+
+import NavBar from "components/common/navbar/NavBar";
+import TabControl from 'components/content/tabControl/TabControl';
+
+
 // 只有default导出才是对象
 import { getHomeMultidata } from "network/home";
-
 
 export default {
   name: "Home",
   components: {
     NavBar,
-    HomeSwiper
+    HomeSwiper,
+    RecommendView,
+    FeatureView,
+    TabControl
   },
   data() {
     return {
@@ -45,8 +117,23 @@ export default {
 </script>
 
 <style scoped>
-.home-nav {
-  background-color: var(--color-tint);
-  color: white;
+#home{
+    padding-top: 44px;
 }
+.home-nav {
+    background-color: var(--color-tint);
+    color: #fff;
+    
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 9;
+  }
+
+.tab-control {
+    position: sticky;
+    top: 44px;
+    z-index: 9;
+  }
 </style>
