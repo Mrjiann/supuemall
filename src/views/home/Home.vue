@@ -5,77 +5,27 @@
       <div slot="center">购物街</div>
     </nav-bar>
 
-    <!-- 轮播图 -->
-    <!--:banners = "banners"父传子，传数据-->
-    <HomeSwiper :banners="banners"></HomeSwiper>
+    <Scroll class="content">
+      <!-- 轮播图 -->
+      <!--:banners = "banners"父传子，传数据-->
+      <HomeSwiper :banners="banners"></HomeSwiper>
 
-    <!-- 四项小组件 -->
-    <RecommendView :recommends="recommends"></RecommendView>
+      <!-- 四项小组件 -->
+      <RecommendView :recommends="recommends"></RecommendView>
 
-    <!-- 推荐更多 -->
-    <feature-view></feature-view>
+      <!-- 推荐更多 -->
+      <feature-view></feature-view>
 
-    <!-- 选项卡 -->
-    <tab-control
-      :titles="['流行', '新款', '精选']"
-      class="tab-control"
-      @tabClick="tabClick"
-    ></tab-control>
+      <!-- 选项卡 -->
+      <tab-control
+        :titles="['流行', '新款', '精选']"
+        class="tab-control"
+        @tabClick="tabClick"
+      ></tab-control>
 
-    <!-- 商品 -->
-    <goods-list :goods="showGoods"></goods-list>
-
-
-
-    <ul>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-      <li>11X</li>
-    </ul>
-
+      <!-- 商品 -->
+      <goods-list :goods="showGoods"></goods-list>
+    </Scroll>
   </div>
 </template>
 
@@ -87,7 +37,8 @@ import HomeSwiper from "./childComps/HomeSwiper";
 
 import NavBar from "components/common/navbar/NavBar";
 import TabControl from "components/content/tabControl/TabControl";
-import GoodsList from 'components/content/goods/GoodsList.vue';
+import GoodsList from "components/content/goods/GoodsList.vue";
+import Scroll from "components/common/scroll/Scroll.vue";
 
 // 只有default导出才是对象
 import { getHomeMultidata, getHomeGoods } from "network/home";
@@ -101,6 +52,7 @@ export default {
     FeatureView,
     TabControl,
     GoodsList,
+    Scroll,
   },
   data() {
     return {
@@ -111,23 +63,23 @@ export default {
         new: { page: 0, list: [] },
         sell: { page: 0, list: [] },
       },
-      currentType:'pop',
+      currentType: "pop",
     };
   },
   methods: {
     // 事件监听相关的方法
-    tabClick(index){
+    tabClick(index) {
       // console.log(index);
-      switch(index){
+      switch (index) {
         case 0:
-          this.currentType = 'pop'
-          break
+          this.currentType = "pop";
+          break;
         case 1:
-          this.currentType = 'new'
-          break
+          this.currentType = "new";
+          break;
         case 2:
-          this.currentType = 'sell'
-          break
+          this.currentType = "sell";
+          break;
       }
     },
     // 网络请求的方法
@@ -139,7 +91,7 @@ export default {
       });
     },
     getHomeGoods(type) {
-      const page = this.goods[type].page + 1
+      const page = this.goods[type].page + 1;
       getHomeGoods(type, page).then((res) => {
         // console.log(res);
         this.goods[type].list.push(...res.data.list);
@@ -157,17 +109,19 @@ export default {
     this.getHomeGoods("new");
     this.getHomeGoods("sell");
   },
-  computed:{
-    showGoods(){
-      return this.goods[this.currentType].list
-    }
-  }
+  computed: {
+    showGoods() {
+      return this.goods[this.currentType].list;
+    },
+  },
 };
 </script>
 
 <style scoped>
 #home {
-  padding-top: 44px;
+  /* padding-top: 44px; */
+  height: 100vh;
+  position: relative;
 }
 .home-nav {
   background-color: var(--color-tint);
@@ -183,5 +137,15 @@ export default {
   position: sticky;
   top: 44px;
   z-index: 10;
+}
+
+.content {
+  overflow: hidden;
+
+    position: absolute;
+    top: 44px;
+    bottom: 49px;
+    left: 0;
+    right: 0;
 }
 </style>
