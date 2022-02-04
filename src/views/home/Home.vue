@@ -5,7 +5,13 @@
       <div slot="center">购物街</div>
     </nav-bar>
 
-    <Scroll class="content">
+    <Scroll 
+    class="content"
+    ref="scroll"
+    :probe-type="3"
+    @scroll="contentScroll"
+    :pull-up-load="true"
+    @pullingUp="loadMore">
       <!-- 轮播图 -->
       <!--:banners = "banners"父传子，传数据-->
       <HomeSwiper :banners="banners"></HomeSwiper>
@@ -26,6 +32,8 @@
       <!-- 商品 -->
       <goods-list :goods="showGoods"></goods-list>
     </Scroll>
+
+    <BackTop @click.native="backClick" v-show="isShowBackTop"></BackTop>
   </div>
 </template>
 
@@ -39,6 +47,7 @@ import NavBar from "components/common/navbar/NavBar";
 import TabControl from "components/content/tabControl/TabControl";
 import GoodsList from "components/content/goods/GoodsList.vue";
 import Scroll from "components/common/scroll/Scroll.vue";
+import BackTop from 'components/content/backTop/BackTop'
 
 // 只有default导出才是对象
 import { getHomeMultidata, getHomeGoods } from "network/home";
@@ -53,6 +62,7 @@ export default {
     TabControl,
     GoodsList,
     Scroll,
+    BackTop
   },
   data() {
     return {
@@ -64,6 +74,7 @@ export default {
         sell: { page: 0, list: [] },
       },
       currentType: "pop",
+      isShowBackTop:false
     };
   },
   methods: {
@@ -96,8 +107,22 @@ export default {
         // console.log(res);
         this.goods[type].list.push(...res.data.list);
         this.goods[type].page += 1;
+
+        this.$refs.scroll.finishPullUp()
       });
+    },  
+    backClick() {
+        this.$refs.scroll.scrollTo(0, 0);
+        // console.log('1');
     },
+    contentScroll(position){
+      // console.log(position);
+      this.isShowBackTop = (-position.y)>1000;
+    },
+    loadMore() {
+        this.getHomeGoods(this.currentType)
+        console.log("loadMore");
+    }
   },
   // 首页一创建就发送请求
   created() {
